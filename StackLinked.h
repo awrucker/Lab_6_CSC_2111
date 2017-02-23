@@ -1,3 +1,8 @@
+/*
+	Jeremiah Payne & Adam Rucker
+	2/23/2017
+	Lab 6/ StackLinked Maze Lab
+*/	
 #if !defined (STACKLINKED_H)
 #define STACKLINKED_H
 
@@ -69,33 +74,37 @@ T* StackLinked<T>::peek()
 {
    T* item = NULL;
    //DO THIS
-
-
-
-
-
+   if(sze != 0)
+	   item = top->getItem();
+   
+   return item;
+   
 }
 
 template < class T >
 void StackLinked<T>::push(T* item)
 {
-   //DO THIS
-
-
-
-
+   NextNode<T>* newNode = new NextNode<T>(item);
+   newNode->setNext(top);
+   top = newNode;
+   sze++;
 }
 
 template < class T >
 T* StackLinked<T>::pop()
 {
-   if (sze == 0) return NULL;
-
-   //DO THIS
-
-
-
-
+	T* item = NULL;
+   if (sze == 0) 
+	   return item;//I changed from return NULL to return item just for consistancy should not change the outcome.
+   
+   NextNode<T>* current = top;
+   
+   item = top->getItem();
+   top = current->getNext();
+   current->setNext(NULL);
+   delete current;
+   sze--;
+   return item;
 }
 
 #endif
