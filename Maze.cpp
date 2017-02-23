@@ -57,6 +57,7 @@ Cell* Maze::processBackTrack(StackLinked<Cell>* stack)
    {
       //remove the cell and set the maze location to BACKTRACK (the maze is a Matrix)
 	  Cell* current = stack->pop();
+	  maze->setElement(current->getRow(), current->getCol(), BACKTRACK);
 	  delete current;
       //look at the next cell
 	  
@@ -78,24 +79,24 @@ bool Maze::isSolved(Cell* curr_cell, StackLinked<Cell>* stack)
    int col = curr_cell->getCell();
 
    //have you solved the maze? (check that we are at the bottom right maze location and that it is a SPACE
-   if (row == height && col == width && curr_cell )  
+   if (row == height && col == width && maze->getElement(row, col) == SPACE);  
    {
 
 
       //set the maze location to TRIED
-
+	  setElement(row, col, TRIED);
 
       //push curr_cell
-
+	  stack->push(curr_cell);
 
       gui->update();
       //return the appropriate boolean
-
+	  return true;
    }
 
 
    //return the appropriate boolean
-   
+   return false;
 }
 
 //backing through the maze, setting the solution color to PATH
@@ -103,17 +104,16 @@ void Maze::processSolution(StackLinked<Cell>* stack)
 {
    //DO THIS
    //the stack has the solution path stored
-   while(                    )
+   while(stack->isEmpty() == false)
    {
       //get the next cell from the stack
-
-
-      
+	  Cell* current = stack->pop();
       //update the maze location to PATH
-
-
-
-
+	  int row = current->getRow();
+	  int col = currrent->getCol();
+	  
+	  maze->setElement(row, col, PATH);
+	  delete current;
       gui->update();
    }
 }
@@ -147,29 +147,23 @@ bool Maze::traverse()
 
       //DO THIS
       //get the row and col from curr_cell
-      int row = 
-      int col = 
+      int row = curr_cell->getRow();
+      int col = curr_cell->getCol();
 
       //check that the current maze location corresponds to SPACE, otherwise delete it
-      if (                                           )
+      if (maze->getElement(row, col) == SPACE)
       {
          //update the maze location to TRIED
+		 maze->setElement(row, col, TRIED);
          //put the cell on the stack (move forward through the maze)
-
-
-
-
-
-
+		 stack->push(curr_cell);
 
          Sleep(SLEEP_TIME);  //slow down the maze traversal
          gui->update();
       }
       else //look for a different route 
       {
-         //DO THIS
-         //delete the cell
-
+		  delete curr_cell;
       }
    }
 
