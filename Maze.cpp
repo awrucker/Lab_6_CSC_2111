@@ -1,3 +1,8 @@
+/*
+	Jeremiah Payne & Adam Rucker
+	2/23/2017
+	Lab 6/ Maze Lab
+*/	
 #include "Maze.h"
 #include "Color.h"
 #include "Rect.h"
@@ -47,21 +52,16 @@ Cell* Maze::processBackTrack(StackLinked<Cell>* stack)
    Cell* top_cell = stack->peek();  
    //top_cell is NULL if the stack is empty
    //top_cell's direction is DEAD_END if you need to keep backtracking
-
-   while (                                        )  //need to back track
+   
+   while (top_cell != NULL && top_cell->getDir() == 5)  //need to back track
    {
-      
-
-
       //remove the cell and set the maze location to BACKTRACK (the maze is a Matrix)
-
-
-
+	  Cell* current = stack->pop();
+	  delete current;
       //look at the next cell
-
-
-
-
+	  
+	  top_cell = stack->peek();
+	
 
       Sleep(SLEEP_TIME);      //slow down the maze traversal
       gui->update();  //update whenever the color of a cell has been changed
@@ -74,11 +74,11 @@ bool Maze::isSolved(Cell* curr_cell, StackLinked<Cell>* stack)
 {
    //DO THIS
    //get row and col from curr_cell
-
-
+   int row = curr_cell->getRow();
+   int col = curr_cell->getCell();
 
    //have you solved the maze? (check that we are at the bottom right maze location and that it is a SPACE
-   if (                                                          )  
+   if (row == height && col == width && curr_cell )  
    {
 
 
@@ -139,7 +139,7 @@ bool Maze::traverse()
 
       //call a method in the Cell class to give you a new Cell in a new direction relative to top_cell (initially, DOWN)
       //DO THIS
-      Cell* curr_cell = 
+      Cell* curr_cell = top_cell->nextCell();
 
       //does this new Cell solve the maze?
       done = isSolved(curr_cell, &stack);
