@@ -155,15 +155,15 @@ bool Maze::traverse()
       Cell* curr_cell = top_cell->nextCell();
       //does this new Cell solve the maze?
       done = isSolved(curr_cell, &stack);
-	  cout<<done;
+	  //cout<<done;
       if (done) break;
 
       //DO THIS
       //get the row and col from curr_cell
       int row = curr_cell->getRow();
       int col = curr_cell->getCol();
-	  cout<<row<<endl;
-	  cout<<col<<endl;
+	  //cout<<row<<endl;
+	  //cout<<col<<endl;
 
       //check that the current maze location corresponds to SPACE, otherwise delete it
       if (maze->getElement(row, col) == SPACE)
