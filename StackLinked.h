@@ -69,6 +69,9 @@ void StackLinked<T>::popAll()
    }
 }
 
+//Pre: 	We have a list and we need to get an item from it, but we don't want to remove it 
+//Post:	We got the item from the list and are returning it 
+
 template < class T >
 T* StackLinked<T>::peek()
 {
@@ -81,6 +84,9 @@ T* StackLinked<T>::peek()
    
 }
 
+//Pre:	We receive an item of type <T>* 
+//Post:	We have a new item added to the stack and increment the size
+
 template < class T >
 void StackLinked<T>::push(T* item)
 {
@@ -89,6 +95,9 @@ void StackLinked<T>::push(T* item)
    top = newNode;
    sze++;
 }
+
+//Pre:	We get our list 
+//Post:	We remove an item from the list and decrement the size
 
 template < class T >
 T* StackLinked<T>::pop()
