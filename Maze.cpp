@@ -1,6 +1,6 @@
 /*
 	Jeremiah Payne & Adam Rucker
-	2/23/2017
+	2/24/2017
 	Lab 6/ Maze Lab
 */	
 #include "Maze.h"
@@ -19,7 +19,7 @@ Maze::Maze(Matrix* mz)
    maze = mz;
    height = maze->getNumRows();
    width = maze->getNumCols();
-
+  
    WALL = 0;
    SPACE = 1;
    TRIED = 2;
@@ -44,6 +44,10 @@ bool Maze::solve()
 }
 
 //backing through the maze, setting the color to BACKTRACK
+/*
+	Pre: Runs through the current stack to find where it should backtrack too and the next available test.
+	Post: Returns the next cell that should be checked to see if it stores a solution from the maze
+*/
 Cell* Maze::processBackTrack(StackLinked<Cell>* stack)
 {
    //DO THIS
@@ -70,21 +74,23 @@ Cell* Maze::processBackTrack(StackLinked<Cell>* stack)
 
    return top_cell;
 }
-
+/*
+	Pre: Receives a Cell* and a StackLinked<Cell>*
+	Post: Returns whether or not the maze was solved based on where it is in the maze
+*/
 bool Maze::isSolved(Cell* curr_cell, StackLinked<Cell>* stack)
 {
    //DO THIS
    //get row and col from curr_cell
    int row = curr_cell->getRow();
-   int col = curr_cell->getCell();
+   int col = curr_cell->getCol();
 
    //have you solved the maze? (check that we are at the bottom right maze location and that it is a SPACE
-   if (row == height && col == width && maze->getElement(row, col) == SPACE);  
+   if (row == height && col == width && maze->getElement(row, col) == SPACE)//this is where we learned C++ does not find closed and open brackets if you leave a semi-colon prior to the brackets. Lesson learned  
    {
-
-
+	   
       //set the maze location to TRIED
-	  setElement(row, col, TRIED);
+	  maze->setElement(row, col, TRIED);
 
       //push curr_cell
 	  stack->push(curr_cell);
@@ -100,6 +106,11 @@ bool Maze::isSolved(Cell* curr_cell, StackLinked<Cell>* stack)
 }
 
 //backing through the maze, setting the solution color to PATH
+
+/*
+	Pre: Runs through the current attempted solution
+	Post: Changes all cells in the stack to PATH
+*/
 void Maze::processSolution(StackLinked<Cell>* stack)
 {
    //DO THIS
@@ -110,14 +121,17 @@ void Maze::processSolution(StackLinked<Cell>* stack)
 	  Cell* current = stack->pop();
       //update the maze location to PATH
 	  int row = current->getRow();
-	  int col = currrent->getCol();
+	  int col = current->getCol();
 	  
 	  maze->setElement(row, col, PATH);
 	  delete current;
       gui->update();
    }
 }
-
+/*
+	Pre:
+	Post: Runs through the maze and tries to find the solution on the path
+*/
 bool Maze::traverse()
 {
    //DO THIS
@@ -136,19 +150,20 @@ bool Maze::traverse()
    {
       Cell* top_cell = processBackTrack(&stack);
       if (top_cell == NULL) break;  //no solution (back tracked all the way to the beginning)
-
       //call a method in the Cell class to give you a new Cell in a new direction relative to top_cell (initially, DOWN)
       //DO THIS
       Cell* curr_cell = top_cell->nextCell();
-
       //does this new Cell solve the maze?
       done = isSolved(curr_cell, &stack);
+	  cout<<done;
       if (done) break;
 
       //DO THIS
       //get the row and col from curr_cell
       int row = curr_cell->getRow();
       int col = curr_cell->getCol();
+	  cout<<row<<endl;
+	  cout<<col<<endl;
 
       //check that the current maze location corresponds to SPACE, otherwise delete it
       if (maze->getElement(row, col) == SPACE)
@@ -156,7 +171,7 @@ bool Maze::traverse()
          //update the maze location to TRIED
 		 maze->setElement(row, col, TRIED);
          //put the cell on the stack (move forward through the maze)
-		 stack->push(curr_cell);
+		 stack.push(curr_cell);
 
          Sleep(SLEEP_TIME);  //slow down the maze traversal
          gui->update();
